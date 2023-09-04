@@ -15,7 +15,7 @@
         "Battle",
     ]
     const WonWords=[
-        "zatwa wygrana😎",
+        "łatwa wygrana😎",
         "zostałeś pokonany!",
         "hahahaha",
     ]
@@ -23,23 +23,27 @@
         "😕",
         "miałem pecha!",
     ]
-    
-    var readyForBattle=true;
-    let minNum;
-    let maxNum;
+
+    var readyForBattle=new Map();
     client.login(TOKEN)
     client.on("messageCreate",(Message)=>{
         if (Message.author.bot) return
-        if(readyForBattle)
+        if (!readyForBattle.has(Message.author.id))
         {
-            readyForBattle=false;
             const content = Message.content.toLowerCase();
             if((StartWords.some(phrase => content.includes(phrase.toLowerCase())))){
                 Message.reply("Dobrze, podaj mi zatem swoją liczbę, musi być ona z przedziału od 0 do 10");
+                readyForBattle.set(Message.author.id, true);
+                setTimeout(() => {
+                    if (readyForBattle.has(Message.author.id)) {
+                      Message.reply(`Za długo czekałem na twoją liczbę, aby zagrać ze mną wpisz ponownie: "//" bądź "Start" `);
+                      readyForBattle.delete(Message.author.id);
+                    }
+                  }, 15000);
             }
         }
        
-        else if(!readyForBattle)
+        else if(readyForBattle.has(Message.author.id))
         {
                 const messageContentAsNumber = parseFloat(Message.content);
                 if(!isNaN(messageContentAsNumber))
@@ -48,7 +52,7 @@
                 }
                 else
                 {
-                    Message.reply("Nie podałeś liczby");
+                    Message.reply("Prosze wpisać liczbę");
                 }
         }
         
@@ -60,13 +64,11 @@
         {
             drawnNumber=10.1;
             CheckingResoults(drawnNumber,playerNumber,Message);
-            readyForBattle=true;
         }
         else
         {
             drawnNumber = NumberGenerator(0,10);
             CheckingResoults(drawnNumber,playerNumber,Message);
-            readyForBattle=true;
         }
     }
     function NumberGenerator(min, max) {
@@ -83,4 +85,5 @@
         : LosesWords[Math.floor(Math.random() * LosesWords.length)];;
       
         Message.reply(botResoult+randomPhrase);
+        readyForBattle.delete(Message.author.id);
     }
