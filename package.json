@@ -1,0 +1,26 @@
+{
+  "name": "fvnavml",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/przemekrn/NumberBattleBot.git"
+  },
+  "keywords": [
+    "discord-bot"
+  ],
+  "author": "przemekrn",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/przemekrn/NumberBattleBot/issues"
+  },
+  "homepage": "https://github.com/przemekrn/NumberBattleBot#readme",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  }
+}
